@@ -13,6 +13,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import hooks.ExtentHooks;
+
 
 public class Hooks {
 
@@ -35,6 +37,9 @@ public class Hooks {
                 byte[] screenshot =
                         Files.readAllBytes(Paths.get(path));
                 scenario.attach(screenshot, "image/png", scenario.getName());
+                
+                ExtentHooks.getTest().addScreenCaptureFromPath(path);
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }

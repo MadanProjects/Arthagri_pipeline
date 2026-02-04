@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class LoginPage extends BasePage {
 
@@ -15,9 +16,14 @@ public class LoginPage extends BasePage {
     private WebElement loginButton;
 
     public void login(String user, String pass) {
-        username.sendKeys(user);
-        password.sendKeys(pass);
-        loginButton.click();
+
+        wait.until(ExpectedConditions.visibilityOf(username))
+                .sendKeys(user);
+
+        wait.until(ExpectedConditions.visibilityOf(password))
+                .sendKeys(pass);
+
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton))
+                .click();
     }
 }
-
