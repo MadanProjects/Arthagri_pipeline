@@ -28,7 +28,8 @@ jobs:
         run: chrome --version
 
       - name: Run Maven Tests
-        run: mvn clean test
+        run: mvn clean test -Dheadless=true
+        
 
       - name: Upload Surefire Reports
         if: always()
