@@ -17,14 +17,22 @@ public class DriverFactory {
         String browser = ConfigReader.getProperty("browser");
         String headless = ConfigReader.getProperty("headless");
 
+        boolean isCI = System.getenv("CI") != null;
+
         switch (browser.toLowerCase()) {
 
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
 
-                if ("true".equalsIgnoreCase(headless)) {
-                    chromeOptions.addArguments("--headless=new");
+                if (isCI || "true".equalsIgnoreCase(headless)) {
+                    chromeOptions.addArguments(
+                            "--headless=new",
+                            "--no-sandbox",
+                            "--disable-dev-shm-usage",
+                            "--disable-gpu",
+                            "--window-size=1920,1080"
+                    );
                 }
 
                 driver.set(new ChromeDriver(chromeOptions));
@@ -44,8 +52,11 @@ public class DriverFactory {
                 throw new RuntimeException("Browser not supported: " + browser);
         }
 
-        getDriver().manage().window().maximize();
         getDriver().manage().deleteAllCookies();
+
+        if (!isCI) {
+            getDriver().manage().window().maximize();
+        }
 
         return getDriver();
     }
