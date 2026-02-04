@@ -1,0 +1,8 @@
+<extent>
+    <configuration>
+        <theme>dark</theme>
+        <documentTitle>BDD Automation Report</documentTitle>
+        <reportName>Regression Test Results</reportName>
+        <encoding>utf-8</encoding>
+    </configuration>
+</extent>
