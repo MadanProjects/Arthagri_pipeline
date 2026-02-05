@@ -10,7 +10,6 @@ on:
   schedule:
     - cron: "30 3 * * *"   # Runs daily at 09:00 IST
 
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -34,7 +33,6 @@ jobs:
 
       - name: Run Maven Tests
         run: mvn clean test -Dheadless=true
-        
 
       - name: Upload Surefire Reports
         if: always()
@@ -43,9 +41,38 @@ jobs:
           name: surefire-reports
           path: target/surefire-reports
 
-      - name: Upload Extent Reports (if exists)
+      - name: Upload Extent Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: extent-reports
           path: test-output
+
+      - name: Send email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          secure: false
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+
+          subject: "Automation Test Execution - GitHub Actions"
+          body: |
+            Hello Team,
+
+            Automation tests have completed.
+
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Run URL:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Please check Artifacts → extent-reports.
+
+            Regards,
+            QA Automation
+
+          to: amce.madan@gmail.com
+          from: QA Automation <${{ secrets.MAIL_USERNAME }}>
