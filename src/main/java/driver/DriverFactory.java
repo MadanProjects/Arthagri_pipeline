@@ -1,3 +1,4 @@
+
 package driver;
 
 import config.ConfigReader;
@@ -9,6 +10,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class DriverFactory {
+	
+	
 
     private static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 

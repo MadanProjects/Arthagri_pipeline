@@ -5,14 +5,15 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 @CucumberOptions(
         features = "src/test/resources/features",
-        glue = {"stepdefinitions", "hooks"},
+//        glue = {"stepdefinitions", "hooks"},
+        glue = {"stepdefinitions"},
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports.html",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
         },
-        monochrome = true,
-        tags = "@smoke"
+        monochrome = true
+       
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 }
